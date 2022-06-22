@@ -1,0 +1,23 @@
+.header-container {
+  background-color: #272727;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 16px;
+}
+.website-logo {
+  width: 80px;
+}
+.header-items-list-container {
+  list-style-type: none;
+  display: flex;
+}
+.nav-link {
+  text-decoration: none;
+  color: #fff;
+  cursor: pointer;
+}
+.header-item-icon {
+  margin: 0 12px;
+  font-size: 20px;
+}
