@@ -1,0 +1,82 @@
+.job-item-details-bg-container {
+  min-height: 100vh;
+  background-color: #000;
+}
+.job-item-details-main-container {
+  padding: 16px;
+}
+.job-item-details-card-container {
+  background-color: gray;
+  border-radius: 10px;
+  padding: 16px;
+}
+.job-item-details-card-header {
+  display: flex;
+}
+.job-item-details-card-header-logo {
+  width: 50px;
+}
+.job-item-details-card-header-title {
+  font-size: 18px;
+  font-weight: 700;
+}
+.job-item-details-card-header-rating {
+}
+.job-item-details-card-details-container {
+  display: flex;
+  justify-content: space-between;
+}
+.job-item-details-card-details-container-1 {
+  display: flex;
+}
+.job-item-details-card-details-container-1-content {
+  font-size: 14px;
+  margin-right: 10px;
+}
+.job-item-details-card-details-container-1-salary {
+  font-weight: 600;
+}
+.h-line {
+}
+.job-item-details-card-description-title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.job-item-details-card-description-title {
+  font-weight: 500;
+}
+.job-item-details-card-details-link {
+  text-decoration: none;
+  color: purple;
+}
+.job-item-details-card-details-link-icon {
+  font-size: 16px;
+}
+.job-item-details-card-description {
+  /* font-size: 14px; */
+}
+.job-item-details-card-skills-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+}
+.job-item-details-card-skill-item {
+  width: 40%;
+}
+.job-item-details-card-image {
+  width: 100%;
+}
+.job-item-details-sub-heading {
+  font-weight: 500;
+  color: #fff;
+  font-size: 26px;
+  margin: 30px 0 20px;
+}
+.job-item-details-similar-jobs-list-container {
+  list-style-type: none;
+}
+.job-item-details-similar-jobs-list-item-container {
+  margin-bottom: 16px;
+}

@@ -21,3 +21,10 @@
   margin: 0 12px;
   font-size: 20px;
 }
+.logout-button {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background-color: transparent;
+  color: #fff;
+}
