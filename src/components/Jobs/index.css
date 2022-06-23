@@ -1,0 +1,135 @@
+.jobs-bg-container {
+  min-height: 100vh;
+  background-color: #000;
+}
+.jobs-main-container {
+  padding: 26px 16px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+.search-container {
+  display: flex;
+  background-color: transparent;
+  border: 1px solid #2c364c; /* #cbd5e1 #b6c5ff */
+  border-radius: 5px;
+}
+.search-input {
+  padding: 8px 16px;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  color: #fff;
+  flex-grow: 1;
+}
+.search-icon-btn {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #272727;
+  padding: 0 20px;
+}
+.search-icon {
+  background-color: transparent;
+  color: #fff;
+  font-size: 16px;
+}
+.profile-card-container {
+  margin: 26px 0 16px;
+  padding: 20px 16px 30px;
+  background-image: url('https://assets.ccbp.in/frontend/react-js/profile-bg.png');
+  background-size: cover;
+  border-radius: 10px;
+}
+.profile-img {
+  width: 30px;
+}
+.profile-card-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: purple;
+}
+.profile-card-description {
+  font-size: 14px;
+  color: darkslategray;
+}
+.h-line {
+}
+.type-of-employment-list-container {
+  list-style-type: none;
+  margin: 16px;
+}
+.salary-range-list-container {
+  list-style-type: none;
+  margin: 16px;
+}
+.type-of-employment-list--item {
+  display: flex;
+  align-items: center;
+}
+.salary-range-list-item {
+  display: flex;
+  align-items: center;
+}
+.filter-input {
+  /* width: 16px; */
+  /* height: 16px; */
+}
+.filter-label {
+  font-size: 14px;
+  margin-left: 10px;
+}
+.job-post-card-container {
+  padding: 16px;
+  background-color: #272727;
+  border-radius: 10px;
+}
+.job-post-card-header-container {
+  display: flex;
+  align-items: center;
+}
+.company-logo {
+  width: 50px;
+}
+.job-post-card-header-text-container {
+}
+.job-post-card-header-title {
+  font-size: 14px;
+  font-weight: 700;
+}
+.job-post-card-header-rating {
+}
+.job-post-card-details-container {
+}
+.job-post-card-details-1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-grow: 0;
+  margin: 16px 0;
+}
+.job-post-card-details-1-1 {
+  display: flex;
+}
+.job-post-card-place {
+  font-size: 12px;
+  margin-right: 16px;
+}
+.job-post-card-type-of-job {
+  font-size: 12px;
+}
+.job-post-card-salary {
+  font-size: 14px;
+}
+
+.job-post-card-description-title {
+  margin: 16px 0;
+  font-size: 14px;
+  font-weight: 500;
+}
+.job-post-card-description {
+  font-size: 14px;
+}
