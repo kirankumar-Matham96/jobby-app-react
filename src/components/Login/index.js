@@ -77,6 +77,7 @@ class Login extends Component {
               type="text"
               name="username"
               id="username"
+              autoComplete="off"
               className="input"
               placeholder="Username"
               value={username}
@@ -89,6 +90,7 @@ class Login extends Component {
               type="password"
               name="password"
               id="password"
+              autoComplete="off"
               className="input"
               placeholder="Password"
               value={password}

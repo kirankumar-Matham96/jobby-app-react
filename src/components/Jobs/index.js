@@ -115,8 +115,72 @@ class Jobs extends Component {
 
   getJobsData = async () => {
     this.setState({jobsApiStatus: apiStatusConstants.inProgress})
+    const {
+      searchInput,
+      employmentTypesFilterList,
+      salaryRangeFilter,
+    } = this.state
+
     const jwtToken = Cookies.get('jwt_token')
-    const url = 'https://apis.ccbp.in/jobs'
+    let url
+    if (
+      searchInput === '' &&
+      employmentTypesFilterList.length === 0 &&
+      salaryRangeFilter === ''
+    ) {
+      url = `https://apis.ccbp.in/jobs?employment_type=&minimum_package=&search=`
+    } else if (
+      searchInput !== '' &&
+      employmentTypesFilterList.length === 0 &&
+      salaryRangeFilter === ''
+    ) {
+      url = `https://apis.ccbp.in/jobs?employment_type=&minimum_package=&search=${searchInput}`
+    } else if (
+      searchInput === '' &&
+      employmentTypesFilterList.length !== 0 &&
+      salaryRangeFilter === ''
+    ) {
+      url = `https://apis.ccbp.in/jobs?employment_type=${employmentTypesFilterList.join()}&minimum_package=&search=`
+    } else if (
+      searchInput === '' &&
+      employmentTypesFilterList.length === 0 &&
+      salaryRangeFilter !== ''
+    ) {
+      url = `https://apis.ccbp.in/jobs?employment_type=&minimum_package=${parseInt(
+        salaryRangeFilter,
+      )}&search=`
+    } else if (
+      searchInput !== '' &&
+      employmentTypesFilterList.length !== 0 &&
+      salaryRangeFilter === ''
+    ) {
+      url = `https://apis.ccbp.in/jobs?employment_type=${employmentTypesFilterList.join()}&minimum_package=&search=${searchInput}`
+    } else if (
+      searchInput !== '' &&
+      employmentTypesFilterList.length === 0 &&
+      salaryRangeFilter !== ''
+    ) {
+      url = `https://apis.ccbp.in/jobs?employment_type=&minimum_package=${parseInt(
+        salaryRangeFilter,
+      )}&search=${searchInput}`
+    } else if (
+      searchInput === '' &&
+      employmentTypesFilterList.length !== 0 &&
+      salaryRangeFilter !== ''
+    ) {
+      url = `https://apis.ccbp.in/jobs?employment_type=${employmentTypesFilterList.join()}&minimum_package=${parseInt(
+        salaryRangeFilter,
+      )}&search=`
+    } else if (
+      searchInput !== '' &&
+      employmentTypesFilterList.length !== 0 &&
+      salaryRangeFilter !== ''
+    ) {
+      url = `https://apis.ccbp.in/jobs?employment_type=${employmentTypesFilterList.join()}&minimum_package=${parseInt(
+        salaryRangeFilter,
+      )}&search=${searchInput}`
+    }
+
     const options = {
       method: 'GET',
       headers: {
@@ -125,7 +189,6 @@ class Jobs extends Component {
     }
     const response = await fetch(url, options)
     const data = await response.json()
-    // console.log(data)
 
     if (response.ok) {
       this.setState({
@@ -157,7 +220,7 @@ class Jobs extends Component {
   }
 
   onSearchForResults = () => {
-    this.setState({isSearchFilterApplied: true})
+    this.getJobsData()
   }
 
   renderLoadingView = () => (
@@ -175,7 +238,7 @@ class Jobs extends Component {
             event.target.value,
           ],
         }),
-        this.getJobsByTypeFilter,
+        this.getJobsData, // <=======
       )
       //   this.getJobsByTypeFilter(event.target.value)
       //   this.getJobsByTypeFilter()
@@ -190,20 +253,19 @@ class Jobs extends Component {
               )
             : prevState.employmentTypesFilterList,
         }),
-        this.getJobsByTypeFilter,
+        this.getJobsData, // <=======
       )
       //   this.getJobsByTypeFilter() // <== for debugging
     }
   }
 
   onSelectingSalaryRangeFilter = event => {
-    console.log('salary range selected')
     if (event.target.checked === true) {
       this.setState(
         {
           salaryRangeFilter: event.target.value,
         },
-        this.getJobsBySalaryRangeFilter,
+        this.getJobsData, // <=======
       )
       //   this.getJobsBySalaryRangeFilter(event.target.value)
       //   this.getJobsBySalaryRangeFilter()
@@ -212,84 +274,84 @@ class Jobs extends Component {
         {
           salaryRangeFilter: '',
         },
-        this.getJobsBySalaryRangeFilter,
+        this.getJobsData, // <=======
       )
       //   this.getJobsBySalaryRangeFilter() // <== for debugging
     }
   }
 
-  getJobsByTypeFilter = async () => {
-    this.setState({jobsApiStatus: apiStatusConstants.inProgress})
-    const {employmentTypesFilterList} = this.state
-    const jwtToken = Cookies.get('jwt_token')
-    const queryParams = employmentTypesFilterList.join()
-    const url = `https://apis.ccbp.in/jobs?employment_type=${queryParams}&minimum_package=&search=`
-    const options = {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${jwtToken}`,
-      },
-    }
-    const response = await fetch(url, options)
-    const data = await response.json()
-    console.log(data)
-    if (response.ok) {
-      this.setState({
-        jobsData: data.jobs.map(eachJobData => ({
-          companyLogoUrl: eachJobData.company_logo_url,
-          employmentType: eachJobData.employment_type,
-          id: eachJobData.id,
-          jobDescription: eachJobData.job_description,
-          location: eachJobData.location,
-          packagePerAnnum: eachJobData.package_per_annum,
-          rating: eachJobData.rating,
-          title: eachJobData.title,
-        })),
-        jobsApiStatus: apiStatusConstants.success,
-      })
-    } else {
-      this.setState({jobsApiStatus: apiStatusConstants.failure})
-    }
-  }
+  //   getJobsByTypeFilter = () => {
+  //     this.setState({employmentTypesFilterList: apiStatusConstants.inProgress})
+  //     // this.setState({jobsApiStatus: apiStatusConstants.inProgress})
+  //     // const {employmentTypesFilterList} = this.state
+  //     // const jwtToken = Cookies.get('jwt_token')
+  //     // const queryParams = employmentTypesFilterList.join()
+  //     // const url = `https://apis.ccbp.in/jobs?employment_type=${queryParams}&minimum_package=&search=`
+  //     // const options = {
+  //     //   method: 'GET',
+  //     //   headers: {
+  //     //     Authorization: `Bearer ${jwtToken}`,
+  //     //   },
+  //     // }
+  //     // const response = await fetch(url, options)
+  //     // const data = await response.json()
+  //     // console.log(data)
+  //     // if (response.ok) {
+  //     //   this.setState({
+  //     //     jobsData: data.jobs.map(eachJobData => ({
+  //     //       companyLogoUrl: eachJobData.company_logo_url,
+  //     //       employmentType: eachJobData.employment_type,
+  //     //       id: eachJobData.id,
+  //     //       jobDescription: eachJobData.job_description,
+  //     //       location: eachJobData.location,
+  //     //       packagePerAnnum: eachJobData.package_per_annum,
+  //     //       rating: eachJobData.rating,
+  //     //       title: eachJobData.title,
+  //     //     })),
+  //     // jobsApiStatus: apiStatusConstants.success,
+  //     //   })
+  //     // } else {
+  //     //   this.setState({jobsApiStatus: apiStatusConstants.failure})
+  //     // }
+  //   }
 
-  getJobsBySalaryRangeFilter = async () => {
-    this.setState({jobsApiStatus: apiStatusConstants.inProgress})
-    const {salaryRangeFilter} = this.state
-    // console.log({salaryRangeFilter})
-    const jwtToken = Cookies.get('jwt_token')
-    const queryParams = salaryRangeFilter
-    const url = `https://apis.ccbp.in/jobs?employment_type=&minimum_package=${queryParams}&search=`
-    const options = {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${jwtToken}`,
-      },
-    }
-    const response = await fetch(url, options)
-    const data = await response.json()
-    console.log(data)
-    if (response.ok) {
-      this.setState({
-        jobsData: data.jobs.map(eachJobData => ({
-          companyLogoUrl: eachJobData.company_logo_url,
-          employmentType: eachJobData.employment_type,
-          id: eachJobData.id,
-          jobDescription: eachJobData.job_description,
-          location: eachJobData.location,
-          packagePerAnnum: eachJobData.package_per_annum,
-          rating: eachJobData.rating,
-          title: eachJobData.title,
-        })),
-        jobsApiStatus: apiStatusConstants.success,
-      })
-    } else {
-      this.setState({jobsApiStatus: apiStatusConstants.failure})
-    }
-  }
+  //   getJobsBySalaryRangeFilter = async () => {
+  //     this.setState({jobsApiStatus: apiStatusConstants.inProgress})
+  //     const {salaryRangeFilter} = this.state
+  //     // console.log({salaryRangeFilter})
+  //     const jwtToken = Cookies.get('jwt_token')
+  //     const queryParams = salaryRangeFilter
+  //     const url = `https://apis.ccbp.in/jobs?employment_type=&minimum_package=${queryParams}&search=`
+  //     const options = {
+  //       method: 'GET',
+  //       headers: {
+  //         Authorization: `Bearer ${jwtToken}`,
+  //       },
+  //     }
+  //     const response = await fetch(url, options)
+  //     const data = await response.json()
+  //     // console.log(data)
+  //     if (response.ok) {
+  //       this.setState({
+  //         jobsData: data.jobs.map(eachJobData => ({
+  //           companyLogoUrl: eachJobData.company_logo_url,
+  //           employmentType: eachJobData.employment_type,
+  //           id: eachJobData.id,
+  //           jobDescription: eachJobData.job_description,
+  //           location: eachJobData.location,
+  //           packagePerAnnum: eachJobData.package_per_annum,
+  //           rating: eachJobData.rating,
+  //           title: eachJobData.title,
+  //         })),
+  //         jobsApiStatus: apiStatusConstants.success,
+  //       })
+  //     } else {
+  //       this.setState({jobsApiStatus: apiStatusConstants.failure})
+  //     }
+  //   }
 
   renderMainPageView = () => {
     const {searchInput} = this.state
-    console.log('rendered')
 
     return (
       <div className="jobs-bg-container">

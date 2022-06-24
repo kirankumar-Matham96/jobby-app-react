@@ -38,6 +38,7 @@
   font-size: 16px;
   margin-bottom: 26px;
   border-radius: 5px;
+  color: #fff;
 }
 .button {
   border: none;
@@ -49,4 +50,9 @@
   font-size: 14px;
   padding: 10px;
   border-radius: 8px;
+}
+.error-message {
+  color: #ff0b37;
+  margin-top: 5px;
+  font-size: 14px;
 }
