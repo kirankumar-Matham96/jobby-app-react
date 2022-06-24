@@ -1,20 +1,23 @@
 .job-item-details-bg-container {
   min-height: 100vh;
   background-color: #000;
+  color: #fff;
 }
 .job-item-details-main-container {
   padding: 16px;
 }
 .job-item-details-card-container {
-  background-color: gray;
+  background-color: #272727;
   border-radius: 10px;
   padding: 16px;
 }
 .job-item-details-card-header {
   display: flex;
+  margin-bottom: 16px;
 }
 .job-item-details-card-header-logo {
   width: 50px;
+  margin-right: 10px;
 }
 .job-item-details-card-header-title {
   font-size: 18px;
@@ -22,9 +25,13 @@
 }
 .job-item-details-card-header-rating {
 }
+.job-item-details-card-header-rating-icon {
+  color: yellow;
+}
 .job-item-details-card-details-container {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 16px;
 }
 .job-item-details-card-details-container-1 {
   display: flex;
@@ -37,33 +44,57 @@
   font-weight: 600;
 }
 .h-line {
+  margin: 16px 0;
 }
 .job-item-details-card-description-title-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 20px;
 }
 .job-item-details-card-description-title {
-  font-weight: 500;
+  font-weight: 700;
 }
 .job-item-details-card-details-link {
   text-decoration: none;
-  color: purple;
+}
+.external-link-button {
+  color: #6366f1;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 700;
 }
 .job-item-details-card-details-link-icon {
   font-size: 16px;
 }
 .job-item-details-card-description {
+  margin-bottom: 16px;
   /* font-size: 14px; */
 }
 .job-item-details-card-skills-container {
+  list-style-type: none;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-around;
+  margin-bottom: 16px;
 }
 .job-item-details-card-skill-item {
-  width: 40%;
+  width: 50%;
+  display: flex;
+  align-items: center;
+  margin: 16px 0;
+}
+.job-item-details-card-skill-item-image {
+  width: 32px;
+  margin-right: 10px;
+}
+.job-item-details-card-skill-item-title {
+  font-weight: 700;
+  color: #fff;
 }
 .job-item-details-card-image {
   width: 100%;

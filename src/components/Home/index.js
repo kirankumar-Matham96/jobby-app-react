@@ -4,7 +4,7 @@ import './index.css'
 const Home = props => {
   const onClickFindJobButton = () => {
     const {history} = props
-    history.push('/')
+    history.push('/jobs')
   }
 
   return (

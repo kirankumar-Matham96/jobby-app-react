@@ -82,10 +82,18 @@
   font-size: 14px;
   margin-left: 10px;
 }
+.jobs-list-container {
+  list-style-type: none;
+}
 .job-post-card-container {
   padding: 16px;
   background-color: #272727;
   border-radius: 10px;
+  margin-bottom: 16px;
+}
+.job-card-link {
+  text-decoration: none;
+  color: #fff;
 }
 .job-post-card-header-container {
   display: flex;
@@ -93,6 +101,7 @@
 }
 .company-logo {
   width: 50px;
+  margin-right: 10px;
 }
 .job-post-card-header-text-container {
 }

@@ -7,6 +7,8 @@ class Login extends Component {
   state = {
     username: '',
     password: '',
+    errorMsg: '',
+    showErrorMsg: false,
   }
 
   onChangeUsername = event => {
@@ -17,10 +19,25 @@ class Login extends Component {
     this.setState({password: event.target.value})
   }
 
+  onSubmitSuccess = jwtToken => {
+    const {history} = this.props
+    this.setState({
+      username: '',
+      password: '',
+      showErrorMsg: false,
+      errorMsg: '',
+    })
+    Cookies.set('jwt_token', jwtToken, {expires: 60})
+    history.replace('/')
+  }
+
+  onSubmitFailure = errMsg => {
+    this.setState({showErrorMsg: true, errorMsg: errMsg})
+  }
+
   onSubmittingForm = async event => {
     event.preventDefault()
     const {username, password} = this.state
-    const {history} = this.props
     const userDetails = {username, password}
     const url = 'https://apis.ccbp.in/login'
     const options = {
@@ -28,19 +45,16 @@ class Login extends Component {
       body: JSON.stringify(userDetails),
     }
     const response = await fetch(url, options)
+    const data = await response.json()
     if (response.ok) {
-      const jwtToken = await response.json()
-      Cookies.set('jwt_token', jwtToken)
-      history.replace('/')
+      this.onSubmitSuccess(data.jwt_token)
     } else {
-      console.log(await response.json())
+      this.onSubmitFailure(data.error_msg)
     }
-
-    this.setState({username: '', password: ''})
   }
 
   render() {
-    const {username, password} = this.state
+    const {username, password, showErrorMsg, errorMsg} = this.state
 
     const jwtToken = Cookies.get('jwt_token')
     if (jwtToken !== undefined) {
@@ -83,6 +97,7 @@ class Login extends Component {
             <button className="button" type="submit">
               Login
             </button>
+            {showErrorMsg ? <p className="error-message">*{errorMsg}</p> : null}
           </form>
         </div>
       </div>
