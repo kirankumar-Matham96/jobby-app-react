@@ -28,7 +28,7 @@ const Header = props => {
               <AiFillHome className="header-item-icon" />
             </li>
           </Link>
-          <Link to="/jobs/" className="nav-link">
+          <Link to="/jobs" className="nav-link">
             <li>
               <BsFillBriefcaseFill className="header-item-icon" />
             </li>
@@ -57,7 +57,7 @@ const Header = props => {
           <Link to="/" className="nav-link">
             <li>Home</li>
           </Link>
-          <Link to="/jobs/" className="nav-link">
+          <Link to="/jobs" className="nav-link">
             <li>Jobs</li>
           </Link>
         </ul>

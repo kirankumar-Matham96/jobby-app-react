@@ -2,8 +2,6 @@
   min-height: 100vh;
   background-color: #000;
 }
-@media (min-width: 768px) {
-}
 
 .jobs-main-container {
   padding: 26px 16px;
@@ -38,7 +36,6 @@
 }
 @media (min-width: 768px) {
   .search-container-lg {
-    /* width: 30%; */
     width: 400px;
     display: flex;
   }
@@ -69,19 +66,13 @@
   padding: 0 20px;
   border-radius: 0 5px 5px 0;
 }
-@media (min-width: 768px) {
-}
 
 .search-icon {
   background-color: transparent;
   color: #f8fafc;
   font-size: 16px;
 }
-@media (min-width: 768px) {
-}
 
-.profile-and-filter-section {
-}
 @media (min-width: 768px) {
   .profile-and-filter-section {
     min-width: 20%;
@@ -128,32 +119,25 @@
   margin-top: 10px;
   font-weight: 500;
 }
-@media (min-width: 768px) {
-}
 
 .h-line {
   border-color: #b6c5ff;
   background-color: #b6c5ff;
 }
-@media (min-width: 768px) {
-}
 
 .filter-list-title {
   font-weight: 500;
+  font-size: 16px;
 }
 
 .type-of-employment-list-container {
   list-style-type: none;
   margin: 16px 0;
 }
-@media (min-width: 768px) {
-}
 
 .salary-range-list-container {
   list-style-type: none;
   margin: 16px 0;
-}
-@media (min-width: 768px) {
 }
 
 .type-of-employment-list-item {
@@ -161,38 +145,21 @@
   display: flex;
   align-items: center;
 }
-@media (min-width: 768px) {
-}
 
 .salary-range-list-item {
   margin: 10px 0;
   display: flex;
   align-items: center;
 }
-@media (min-width: 768px) {
-}
-
-.filter-input {
-  /* width: 16px; */
-  /* height: 16px; */
-}
-@media (min-width: 768px) {
-}
 
 .filter-label {
   font-size: 14px;
   margin-left: 10px;
 }
-@media (min-width: 768px) {
-}
 
 .jobs-list-container {
   list-style-type: none;
   margin-top: 16px;
-  /* width: 100%; */
-  /* flex-grow: 1; */
-}
-@media (min-width: 768px) {
 }
 
 .job-post-card-container {
@@ -212,14 +179,10 @@
   text-decoration: none;
   color: #f8fafc;
 }
-@media (min-width: 768px) {
-}
 
 .job-post-card-header-container {
   display: flex;
   align-items: center;
-}
-@media (min-width: 768px) {
 }
 
 .company-logo {
@@ -231,11 +194,6 @@
     width: 60px;
     margin-right: 16px;
   }
-}
-
-.job-post-card-header-text-container {
-}
-@media (min-width: 768px) {
 }
 
 .job-post-card-header-title {
@@ -262,14 +220,9 @@
     margin-right: 10px;
   }
 }
-.job-post-card-header-rating {
-  /* border: 1px solid red; */
-  /* line-height: 0px; */
-}
+
 @media (min-width: 768px) {
   .job-post-card-header-rating {
-    /* border: 1px solid red; */
-    /* line-height: 0px; */
     font-size: 18px;
   }
 }
@@ -290,13 +243,9 @@
   flex-grow: 0;
   margin: 16px 0;
 }
-@media (min-width: 768px) {
-}
 
 .job-post-card-details-1-1 {
   display: flex;
-}
-@media (min-width: 768px) {
 }
 
 .job-post-card-type-place-container {

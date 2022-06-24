@@ -3,10 +3,11 @@ import {AiFillStar} from 'react-icons/ai'
 import {MdLocationOn, MdOpenInNew} from 'react-icons/md'
 import {BsFillBriefcaseFill} from 'react-icons/bs'
 import {Component} from 'react'
-import Loader from 'react-loader-spinner'
+import LoadingView from '../LoadingView'
 import Header from '../Header'
 import JobFailureView from '../JobFailureView'
 import './index.css'
+import SimilarJobItem from '../SimilarJobItem'
 
 const apiStatusConstants = {
   inProgress: 'IN_PROGRESS',
@@ -87,11 +88,7 @@ class JobItemDetails extends Component {
     }
   }
 
-  renderLoadingView = () => (
-    <div className="loader-container" testid="loader">
-      <Loader type="ThreeDots" color="#ffffff" height="50" width="50" />
-    </div>
-  )
+  renderLoadingView = () => <LoadingView />
 
   renderSuccessView = () => {
     const {jobDetails, similarJobs} = this.state
@@ -101,7 +98,7 @@ class JobItemDetails extends Component {
           <div className="job-item-details-card-header">
             <img
               src={jobDetails.companyLogoUrl}
-              alt=""
+              alt="job details company logo"
               className="job-item-details-card-header-logo"
             />
             <div>
@@ -137,9 +134,9 @@ class JobItemDetails extends Component {
           </div>
           <hr className="h-line" />
           <div className="job-item-details-card-description-title-container">
-            <p className="job-item-details-card-description-title">
+            <h1 className="job-item-details-card-description-title">
               Description
-            </p>
+            </h1>
             <a
               href={jobDetails.companyWebsiteUrl}
               target="_blank"
@@ -155,7 +152,7 @@ class JobItemDetails extends Component {
           <p className="job-item-details-card-description">
             {jobDetails.jobDescription}
           </p>
-          <p className="job-item-details-card-description-title">Skills</p>
+          <h1 className="job-item-details-card-description-title">Skills</h1>
           <ul className="job-item-details-card-skills-container">
             {jobDetails.skills.map(eachSkill => (
               <li
@@ -174,16 +171,16 @@ class JobItemDetails extends Component {
             ))}
           </ul>
           <div>
-            <p className="job-item-details-card-description-title">
+            <h1 className="job-item-details-card-description-title">
               Life at Company
-            </p>
+            </h1>
             <div className="job-life-container">
               <p className="job-item-details-card-description">
                 {jobDetails.lifeAtCompany.description}
               </p>
               <img
                 src={jobDetails.lifeAtCompany.image_url}
-                alt=""
+                alt="life at company"
                 className="job-item-details-card-image"
               />
             </div>
@@ -194,50 +191,7 @@ class JobItemDetails extends Component {
 
         <ul className="job-item-details-similar-jobs-list-container">
           {similarJobs.map(eachJob => (
-            <li
-              className="job-item-details-card-container job-item-details-similar-jobs-list-item-container"
-              key={eachJob.id}
-            >
-              <div className="job-item-details-card-header job-item-details-similar-jobs-header">
-                <img
-                  src={eachJob.companyLogoUrl}
-                  alt={eachJob.title}
-                  className="job-item-details-card-header-logo"
-                />
-                <div>
-                  <h1 className="job-item-details-card-header-title">
-                    {eachJob.title}
-                  </h1>
-
-                  <div className="rating-container">
-                    <AiFillStar className="rating-star small-icons" />{' '}
-                    <p className="job-item-details-card-header-rating">
-                      {eachJob.rating}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <p className="job-item-details-card-description-title job-item-details-similar-jobs-title">
-                Description
-              </p>
-              <p className="job-item-details-card-description job-item-details-similar-jobs-description">
-                {eachJob.jobDescription}
-              </p>
-              <div className="job-item-details-card-details-container-1">
-                <div className="job-item-details-card-details-container-1-content-container">
-                  <MdLocationOn className="job-item-details-card-icon" />
-                  <p className="job-item-details-card-details-container-1-content">
-                    {eachJob.location}
-                  </p>
-                </div>
-                <div className="job-item-details-card-details-container-1-content-container">
-                  <BsFillBriefcaseFill className="job-item-details-card-icon" />
-                  <p className="job-item-details-card-details-container-1-content">
-                    {eachJob.employmentType}
-                  </p>
-                </div>
-              </div>
-            </li>
+            <SimilarJobItem jobDetails={eachJob} />
           ))}
         </ul>
       </div>

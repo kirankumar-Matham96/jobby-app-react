@@ -1,11 +1,11 @@
 import Cookies from 'js-cookie'
-import Loader from 'react-loader-spinner'
 import {Link} from 'react-router-dom'
 import {BsSearch, BsFillBriefcaseFill} from 'react-icons/bs'
 import {AiFillStar} from 'react-icons/ai'
 import {MdLocationOn} from 'react-icons/md'
 import {Component} from 'react'
 import Header from '../Header'
+import LoadingView from '../LoadingView/index'
 import ProfileFailureView from '../ProfileFailureView'
 import JobFailureView from '../JobFailureView'
 import NoJobsFound from '../NoJobsFound'
@@ -228,11 +228,7 @@ class Jobs extends Component {
     this.getJobsData()
   }
 
-  renderLoadingView = () => (
-    <div className="loader-container" testid="loader">
-      <Loader type="ThreeDots" color="#ffffff" height="50" width="50" />
-    </div>
-  )
+  renderLoadingView = () => <LoadingView />
 
   onSelectingEmploymentTypeFilter = event => {
     if (event.target.checked === true) {
@@ -243,10 +239,8 @@ class Jobs extends Component {
             event.target.value,
           ],
         }),
-        this.getJobsData, // <=======
+        this.getJobsData,
       )
-      //   this.getJobsByTypeFilter(event.target.value)
-      //   this.getJobsByTypeFilter()
     } else {
       this.setState(
         prevState => ({
@@ -258,9 +252,8 @@ class Jobs extends Component {
               )
             : prevState.employmentTypesFilterList,
         }),
-        this.getJobsData, // <=======
+        this.getJobsData,
       )
-      //   this.getJobsByTypeFilter() // <== for debugging
     }
   }
 
@@ -270,90 +263,17 @@ class Jobs extends Component {
         {
           salaryRangeFilter: event.target.value,
         },
-        this.getJobsData, // <=======
+        this.getJobsData,
       )
-      //   this.getJobsBySalaryRangeFilter(event.target.value)
-      //   this.getJobsBySalaryRangeFilter()
     } else {
       this.setState(
         {
           salaryRangeFilter: '',
         },
-        this.getJobsData, // <=======
+        this.getJobsData,
       )
-      //   this.getJobsBySalaryRangeFilter() // <== for debugging
     }
   }
-
-  //   getJobsByTypeFilter = () => {
-  //     this.setState({employmentTypesFilterList: apiStatusConstants.inProgress})
-  //     // this.setState({jobsApiStatus: apiStatusConstants.inProgress})
-  //     // const {employmentTypesFilterList} = this.state
-  //     // const jwtToken = Cookies.get('jwt_token')
-  //     // const queryParams = employmentTypesFilterList.join()
-  //     // const url = `https://apis.ccbp.in/jobs?employment_type=${queryParams}&minimum_package=&search=`
-  //     // const options = {
-  //     //   method: 'GET',
-  //     //   headers: {
-  //     //     Authorization: `Bearer ${jwtToken}`,
-  //     //   },
-  //     // }
-  //     // const response = await fetch(url, options)
-  //     // const data = await response.json()
-  //     // console.log(data)
-  //     // if (response.ok) {
-  //     //   this.setState({
-  //     //     jobsData: data.jobs.map(eachJobData => ({
-  //     //       companyLogoUrl: eachJobData.company_logo_url,
-  //     //       employmentType: eachJobData.employment_type,
-  //     //       id: eachJobData.id,
-  //     //       jobDescription: eachJobData.job_description,
-  //     //       location: eachJobData.location,
-  //     //       packagePerAnnum: eachJobData.package_per_annum,
-  //     //       rating: eachJobData.rating,
-  //     //       title: eachJobData.title,
-  //     //     })),
-  //     // jobsApiStatus: apiStatusConstants.success,
-  //     //   })
-  //     // } else {
-  //     //   this.setState({jobsApiStatus: apiStatusConstants.failure})
-  //     // }
-  //   }
-
-  //   getJobsBySalaryRangeFilter = async () => {
-  //     this.setState({jobsApiStatus: apiStatusConstants.inProgress})
-  //     const {salaryRangeFilter} = this.state
-  //     // console.log({salaryRangeFilter})
-  //     const jwtToken = Cookies.get('jwt_token')
-  //     const queryParams = salaryRangeFilter
-  //     const url = `https://apis.ccbp.in/jobs?employment_type=&minimum_package=${queryParams}&search=`
-  //     const options = {
-  //       method: 'GET',
-  //       headers: {
-  //         Authorization: `Bearer ${jwtToken}`,
-  //       },
-  //     }
-  //     const response = await fetch(url, options)
-  //     const data = await response.json()
-  //     // console.log(data)
-  //     if (response.ok) {
-  //       this.setState({
-  //         jobsData: data.jobs.map(eachJobData => ({
-  //           companyLogoUrl: eachJobData.company_logo_url,
-  //           employmentType: eachJobData.employment_type,
-  //           id: eachJobData.id,
-  //           jobDescription: eachJobData.job_description,
-  //           location: eachJobData.location,
-  //           packagePerAnnum: eachJobData.package_per_annum,
-  //           rating: eachJobData.rating,
-  //           title: eachJobData.title,
-  //         })),
-  //         jobsApiStatus: apiStatusConstants.success,
-  //       })
-  //     } else {
-  //       this.setState({jobsApiStatus: apiStatusConstants.failure})
-  //     }
-  //   }
 
   renderMainPageView = () => {
     const {searchInput} = this.state
@@ -373,6 +293,7 @@ class Jobs extends Component {
             />
             <button
               type="button"
+              testid="searchButton"
               className="search-icon-btn"
               onClick={this.onSearchForResults}
             >
@@ -383,7 +304,7 @@ class Jobs extends Component {
           <div className="profile-and-filter-section">
             {this.selectProfileViewByStatus()}
             <hr className="h-line" />
-            <p className="filter-list-title">Type of Employment</p>
+            <h1 className="filter-list-title">Type of Employment</h1>
             <ul className="type-of-employment-list-container">
               {employmentTypesList.map(eachEmploymentType => (
                 <li
@@ -408,7 +329,7 @@ class Jobs extends Component {
               ))}
             </ul>
             <hr className="h-line" />
-            <p className="filter-list-title">Salary Range</p>
+            <h1 className="filter-list-title">Salary Range</h1>
             <ul className="salary-range-list-container">
               {salaryRangesList.map(eachSalaryRange => (
                 <li
@@ -468,7 +389,7 @@ class Jobs extends Component {
         <div className="job-post-card-header-container">
           <img
             src={jobData.companyLogoUrl}
-            alt="logo"
+            alt="company logo"
             className="company-logo"
           />
           <div className="job-post-card-header-text-container">
@@ -505,16 +426,7 @@ class Jobs extends Component {
   )
 
   renderJobsSuccessView = () => {
-    // const {jobsData, isSearchFilterApplied, searchInput} = this.state
     const {jobsData} = this.state
-    // const jobsDataFilteredWithSearch = jobsData.filter(eachJobData =>
-    //   eachJobData.title.includes(searchInput),
-    // )
-
-    // return isSearchFilterApplied ? (
-    //   jobsDataFilteredWithSearch.map(eachJobData =>
-    //     this.renderJobCard(eachJobData),
-    //   )
     return jobsData.length !== 0 ? (
       jobsData.map(eachJobData => this.renderJobCard(eachJobData))
     ) : (
