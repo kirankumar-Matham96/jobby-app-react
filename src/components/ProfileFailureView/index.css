@@ -1,0 +1,15 @@
+.profile-failure-view-container {
+  height: 175px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-failure-retry-button {
+  border: none;
+  outline: none;
+  color: #fff;
+  background-color: #4f46e5;
+  padding: 10px 16px;
+  border-radius: 5px;
+}

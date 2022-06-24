@@ -1,12 +1,3 @@
-/**
- * Filter by search added.
- * Filter by job type and salary range need to be added.
- * Failure views should be added.
- * No jobs view should be added when the filter results are empty.
- * When job item is clicked, it should navigate to the job details page.
- *
- */
-
 import Cookies from 'js-cookie'
 import Loader from 'react-loader-spinner'
 import {Link} from 'react-router-dom'
@@ -15,6 +6,9 @@ import {AiFillStar} from 'react-icons/ai'
 import {MdLocationOn} from 'react-icons/md'
 import {Component} from 'react'
 import Header from '../Header'
+import ProfileFailureView from '../ProfileFailureView'
+import JobFailureView from '../JobFailureView'
+import NoJobsFound from '../NoJobsFound'
 import './index.css'
 
 const employmentTypesList = [
@@ -68,7 +62,6 @@ class Jobs extends Component {
     jobsApiStatus: apiStatusConstants.initial,
     profileData: {},
     jobsData: [],
-    isSearchFilterApplied: false, // not necessary
     searchInput: '',
     employmentTypesFilterList: [],
     salaryRangeFilter: '',
@@ -92,21 +85,26 @@ class Jobs extends Component {
       },
     }
 
-    const response = await fetch(url, options)
-    const data = await response.json()
-    // console.log('profile: ', data)
+    try {
+      const response = await fetch(url, options)
+      const data = await response.json()
 
-    if (response.ok) {
-      const updatedProfileDetails = {
-        name: data.profile_details.name,
-        profileImageUrl: data.profile_details.profile_image_url,
-        shortBio: data.profile_details.short_bio,
+      if (response.ok) {
+        const updatedProfileDetails = {
+          name: data.profile_details.name,
+          profileImageUrl: data.profile_details.profile_image_url,
+          shortBio: data.profile_details.short_bio,
+        }
+        this.setState({
+          profileData: updatedProfileDetails,
+          profileApiStatus: apiStatusConstants.success,
+        })
+      } else {
+        this.setState({
+          profileApiStatus: apiStatusConstants.failure,
+        })
       }
-      this.setState({
-        profileData: updatedProfileDetails,
-        profileApiStatus: apiStatusConstants.success,
-      })
-    } else {
+    } catch (err) {
       this.setState({
         profileApiStatus: apiStatusConstants.failure,
       })
@@ -187,24 +185,31 @@ class Jobs extends Component {
         Authorization: `Bearer ${jwtToken}`,
       },
     }
-    const response = await fetch(url, options)
-    const data = await response.json()
 
-    if (response.ok) {
-      this.setState({
-        jobsData: data.jobs.map(eachJobData => ({
-          companyLogoUrl: eachJobData.company_logo_url,
-          employmentType: eachJobData.employment_type,
-          id: eachJobData.id,
-          jobDescription: eachJobData.job_description,
-          location: eachJobData.location,
-          packagePerAnnum: eachJobData.package_per_annum,
-          rating: eachJobData.rating,
-          title: eachJobData.title,
-        })),
-        jobsApiStatus: apiStatusConstants.success,
-      })
-    } else {
+    try {
+      const response = await fetch(url, options)
+      const data = await response.json()
+
+      if (response.ok) {
+        this.setState({
+          jobsData: data.jobs.map(eachJobData => ({
+            companyLogoUrl: eachJobData.company_logo_url,
+            employmentType: eachJobData.employment_type,
+            id: eachJobData.id,
+            jobDescription: eachJobData.job_description,
+            location: eachJobData.location,
+            packagePerAnnum: eachJobData.package_per_annum,
+            rating: eachJobData.rating,
+            title: eachJobData.title,
+          })),
+          jobsApiStatus: apiStatusConstants.success,
+        })
+      } else {
+        this.setState({
+          jobsApiStatus: apiStatusConstants.failure,
+        })
+      }
+    } catch (err) {
       this.setState({
         jobsApiStatus: apiStatusConstants.failure,
       })
@@ -357,7 +362,7 @@ class Jobs extends Component {
       <div className="jobs-bg-container">
         <Header />
         <div className="jobs-main-container">
-          <div className="search-container">
+          <div className="search-container-sm">
             <input
               type="search"
               placeholder="Search"
@@ -374,58 +379,84 @@ class Jobs extends Component {
               <BsSearch className="search-icon" />
             </button>
           </div>
-          {this.selectProfileViewByStatus()}
-          <hr className="h-line" />
-          <ul className="type-of-employment-list-container">
-            {employmentTypesList.map(eachEmploymentType => (
-              <li
-                className="type-of-employment-list-item"
-                key={eachEmploymentType.employmentTypeId}
-              >
-                <input
-                  type="checkbox"
-                  className="filter-input"
-                  name={eachEmploymentType.employmentTypeId}
-                  id={eachEmploymentType.employmentTypeId}
-                  onClick={this.onSelectingEmploymentTypeFilter}
-                  value={eachEmploymentType.employmentTypeId}
-                />
-                <label
-                  className="filter-label"
-                  htmlFor={eachEmploymentType.employmentTypeId}
+
+          <div className="profile-and-filter-section">
+            {this.selectProfileViewByStatus()}
+            <hr className="h-line" />
+            <p className="filter-list-title">Type of Employment</p>
+            <ul className="type-of-employment-list-container">
+              {employmentTypesList.map(eachEmploymentType => (
+                <li
+                  className="type-of-employment-list-item"
+                  key={eachEmploymentType.employmentTypeId}
                 >
-                  {eachEmploymentType.label}
-                </label>
-              </li>
-            ))}
-          </ul>
-          <hr className="h-line" />
-          <ul className="salary-range-list-container">
-            {salaryRangesList.map(eachSalaryRange => (
-              <li
-                className="salary-range-list-item"
-                key={eachSalaryRange.salaryRangeId}
-              >
-                <input
-                  type="radio"
-                  className="filter-input"
-                  name="salaryRange"
-                  id={eachSalaryRange.salaryRangeId}
-                  value={`${eachSalaryRange.label.slice(0, 2)}00000`}
-                  onClick={this.onSelectingSalaryRangeFilter}
-                />
-                <label
-                  className="filter-label"
-                  htmlFor={eachSalaryRange.salaryRangeId}
+                  <input
+                    type="checkbox"
+                    className="filter-input"
+                    name={eachEmploymentType.employmentTypeId}
+                    id={eachEmploymentType.employmentTypeId}
+                    onClick={this.onSelectingEmploymentTypeFilter}
+                    value={eachEmploymentType.employmentTypeId}
+                  />
+                  <label
+                    className="filter-label"
+                    htmlFor={eachEmploymentType.employmentTypeId}
+                  >
+                    {eachEmploymentType.label}
+                  </label>
+                </li>
+              ))}
+            </ul>
+            <hr className="h-line" />
+            <p className="filter-list-title">Salary Range</p>
+            <ul className="salary-range-list-container">
+              {salaryRangesList.map(eachSalaryRange => (
+                <li
+                  className="salary-range-list-item"
+                  key={eachSalaryRange.salaryRangeId}
                 >
-                  {eachSalaryRange.label}
-                </label>
-              </li>
-            ))}
-          </ul>
-          <ul className="jobs-list-container">
-            {this.selectJobsViewByStatus()}
-          </ul>
+                  <input
+                    type="radio"
+                    className="filter-input"
+                    name="salaryRange"
+                    id={eachSalaryRange.salaryRangeId}
+                    value={`${eachSalaryRange.label.slice(0, 2)}00000`}
+                    onClick={this.onSelectingSalaryRangeFilter}
+                  />
+                  <label
+                    className="filter-label"
+                    htmlFor={eachSalaryRange.salaryRangeId}
+                  >
+                    {eachSalaryRange.label}
+                  </label>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="jobs-main-display-container">
+            <div className="search-container-lg">
+              <input
+                type="search"
+                placeholder="Search"
+                className="search-input"
+                value={searchInput}
+                onChange={this.onSearchInputChange}
+                onKeyDown={this.onSearchInputChange}
+              />
+              <button
+                type="button"
+                className="search-icon-btn"
+                onClick={this.onSearchForResults}
+              >
+                <BsSearch className="search-icon" />
+              </button>
+            </div>
+
+            <ul className="jobs-list-container">
+              {this.selectJobsViewByStatus()}
+            </ul>
+          </div>
         </div>
       </div>
     )
@@ -442,20 +473,25 @@ class Jobs extends Component {
           />
           <div className="job-post-card-header-text-container">
             <h1 className="job-post-card-header-title">{jobData.title}</h1>
-            <p className="job-post-card-header-rating">
-              <AiFillStar /> {jobData.rating}
-            </p>
+            <div className="job-post-card-header-rating-container">
+              <AiFillStar className="rating-star small-icons" />
+              <p className="job-post-card-header-rating">{jobData.rating}</p>
+            </div>
           </div>
         </div>
         <div className="job-post-card-details-container">
           <div className="job-post-card-details-1">
             <div className="job-post-card-details-1-1">
-              <p className="job-post-card-place">
-                <MdLocationOn /> {jobData.location}
-              </p>
-              <p className="job-post-card-type-of-job">
-                <BsFillBriefcaseFill /> {jobData.employmentType}
-              </p>
+              <div className="job-post-card-type-place-container">
+                <MdLocationOn className="small-icons" />
+                <p className="job-post-card-place">{jobData.location}</p>
+              </div>
+              <div className="job-post-card-type-place-container">
+                <BsFillBriefcaseFill className="small-icons" />
+                <p className="job-post-card-type-of-job">
+                  {jobData.employmentType}
+                </p>
+              </div>
             </div>
             <p className="job-post-card-salary">{jobData.packagePerAnnum}</p>
           </div>
@@ -469,18 +505,26 @@ class Jobs extends Component {
   )
 
   renderJobsSuccessView = () => {
-    const {jobsData, isSearchFilterApplied, searchInput} = this.state
-    const jobsDataFilteredWithSearch = jobsData.filter(eachJobData =>
-      eachJobData.title.includes(searchInput),
+    // const {jobsData, isSearchFilterApplied, searchInput} = this.state
+    const {jobsData} = this.state
+    // const jobsDataFilteredWithSearch = jobsData.filter(eachJobData =>
+    //   eachJobData.title.includes(searchInput),
+    // )
+
+    // return isSearchFilterApplied ? (
+    //   jobsDataFilteredWithSearch.map(eachJobData =>
+    //     this.renderJobCard(eachJobData),
+    //   )
+    return jobsData.length !== 0 ? (
+      jobsData.map(eachJobData => this.renderJobCard(eachJobData))
+    ) : (
+      <NoJobsFound />
     )
-    return isSearchFilterApplied
-      ? jobsDataFilteredWithSearch.map(eachJobData =>
-          this.renderJobCard(eachJobData),
-        )
-      : jobsData.map(eachJobData => this.renderJobCard(eachJobData))
   }
 
-  renderJobsFailureView = () => <div>Sorry Failed</div>
+  renderJobsFailureView = () => (
+    <JobFailureView onRetryGetJobs={this.getJobsData} />
+  )
 
   renderProfileSuccessView = () => {
     const {profileData} = this.state
@@ -497,7 +541,9 @@ class Jobs extends Component {
     )
   }
 
-  renderProfileFailureView = () => <div>Hello</div>
+  renderProfileFailureView = () => (
+    <ProfileFailureView onRetryProfile={this.getProfileData} />
+  )
 
   selectProfileViewByStatus = () => {
     const {profileApiStatus} = this.state
